@@ -21,3 +21,15 @@ persona1.saludar()
 
 persona2 = Persona("Jader", 21)
 persona2.saludar()
+
+class Estudiante(Persona): 
+    def __init__(self, nombre, edad, grado): 
+        super().__init__(nombre, edad)
+        self.grado = grado
+
+    def estudiar(self): 
+        print(f"{self.nombre} esta eestudiando el grado {self.grado}.")
+
+estudiante1 = Estudiante("Gabriela", 29, "Maestria")
+estudiante1.saludar()
+estudiante1.estudiar()
