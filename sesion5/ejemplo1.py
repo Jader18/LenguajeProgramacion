@@ -7,3 +7,5 @@ def factorial(n):
 num = int(input("Digite un numero entero: "))
 
 print(factorial(num))
+
+
