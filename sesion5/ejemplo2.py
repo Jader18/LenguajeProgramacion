@@ -6,7 +6,6 @@ def fibonacci(n):
 
 
 
-
 numeroTerminos = int(input("Digite un numero: "))
 print("Serie de Fibonacci: ")
 for i in range(numeroTerminos):
