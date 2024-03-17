@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append(r"C:\Users\Jader Mendoza\Desktop\3er año - 1er cuatrimestre\Lenguaje de programacion\Python\ConexionBD")  # Reemplaza "/ruta/a/ConexionBD" con la ruta real a tu proyecto
+sys.path.append(r"C:\Users\Jader Mendoza\Desktop\3er año - 1er cuatrimestre\Lenguaje de programacion\Python\ConexionBD")
 from dao import daoConnection
 from models import clases as c
 
