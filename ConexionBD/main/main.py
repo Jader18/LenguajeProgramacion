@@ -9,6 +9,85 @@ os.system('cls')
 conex = daoConnection.Connection("localhost", "root", "", "bdregisters")
 conex.connect()
 
+
+
+
+def insertarCiudad():
+    name = input("Nombre de la ciudad: ")
+    ciudad = c.City(name, 1)
+    daoCity = daoConnection.DaoCity(conex)
+    daoCity.insert(ciudad)
+    
+
+def editarCiudad():
+    oldId = int(input("ID de la ciudad a editar: "))
+    newName = input("Nuevo Nombre: ")
+    daoCity = daoConnection.DaoCity(conex)
+    ciudad = c.City(newName, 1, oldId)
+    daoCity.update(ciudad)
+
+
+def mostarCiudad():
+    daoCity = daoConnection.DaoCity(conex)
+    cities = daoCity.get_all()
+    for city in cities:
+        print(city)
+
+
+def eliminarCiudad():
+    id = int(input("ID de la ciudad a eliminar: "))
+    daoCity = daoConnection.DaoCity(conex)
+    daoCity.delete(id)
+
+
+def buscarCiudad():
+    id = int(input("ID de la ciudad a buscar: "))
+    daoCity = daoConnection.DaoCity(conex)
+    cities = daoCity.get_by_id(id)
+    print(cities)
+
+
+
+def Menu():
+    print("1. Igresar ciudad")
+    print("2. Editar ciudad")
+    print("3. Mostrar ciudad")
+    print("4. Eliminar ciudad")
+    print("5. Buscar ciudad")
+    print("6. Salir")
+
+def main():
+    opcion = 0
+
+    while(opcion != 6): 
+        Menu()
+        opcion = int(input("Ingresa una opcion: "))
+
+        if (opcion == 1):
+            insertarCiudad()
+            os.system("pause")
+
+        elif(opcion == 2):
+            editarCiudad()
+            os.system("pause")
+
+        elif(opcion == 3):
+            mostarCiudad()
+            os.system("pause")
+        
+        elif(opcion == 4):
+            eliminarCiudad()
+            os.system("pause")
+
+        elif(opcion == 5):
+            buscarCiudad()
+            os.system("pause")
+
+main()
+
+
+
+
 #control + k + c -- comentar en bloque
 #control + k + u -- quitar comentario en bloque
 
