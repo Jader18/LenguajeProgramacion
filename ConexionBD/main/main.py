@@ -19,12 +19,27 @@ def insertarCiudad():
     daoCity.insert(ciudad)
     
 
+
+def validar_status(status):
+    if status == 1 or status == 2:
+        return True
+    else:
+        return False
+
 def editarCiudad():
     oldId = int(input("ID de la ciudad a editar: "))
     newName = input("Nuevo Nombre: ")
-    daoCity = daoConnection.DaoCity(conex)
-    ciudad = c.City(newName, 1, oldId)
-    daoCity.update(ciudad)
+    status = int(input("Ingrese el nuevo estado: 1) Activo || 2) Inactivo: "))
+
+    if validar_status(status):
+        print("Status valido")
+        daoCity = daoConnection.DaoCity(conex)
+        ciudad = c.City(newName, status, oldId)
+        daoCity.update(ciudad)
+    else:
+        print("Status inválido. Debe ser 1 o 2.")
+
+    
 
 
 def mostarCiudad():
@@ -41,9 +56,10 @@ def eliminarCiudad():
 
 
 def buscarCiudad():
-    id = int(input("ID de la ciudad a buscar: "))
+    name = input("Ingresa el nombre de la ciudad que desea buscar: ")
     daoCity = daoConnection.DaoCity(conex)
-    cities = daoCity.get_by_id(id)
+    cities = daoCity.get_by_name(name)
+
     print(cities)
 
 
@@ -84,6 +100,9 @@ def main():
             os.system("pause")
 
 main()
+
+
+
 
 
 

@@ -37,9 +37,9 @@ class DaoCity:
         query = 'SELECT * FROM cities'
         return self.connection.execute_read_query(query, ())
     
-    def get_by_id(self, id):
-        query = 'SELECT * FROM cities WHERE id = %s'
-        return self.connection.execute_read_query(query, (id,))
+    def get_by_name(self, name):
+        query = 'SELECT * FROM cities WHERE name = %s'
+        return self.connection.execute_read_query(query, (name,))
     
     def insert(self, city):
         query = 'INSERT INTO cities (name, status) VALUES (%s, %s)'
