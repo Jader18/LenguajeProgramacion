@@ -32,14 +32,28 @@ class Connection:
 class DaoCity:
     def __init__(self, connection):
         self.connection = connection
-    
+
+
+
+
     def get_all(self):
-        query = 'SELECT * FROM cities'
+        query = """
+        SELECT 'ID', 
+            'Nombre', 
+            'Estado'
+        UNION ALL
+        SELECT id, 
+            name AS Nombre, 
+            status AS Estado
+        FROM cities;
+        """
         return self.connection.execute_read_query(query, ())
     
-    def get_by_name(self, name):
+
+
+    def get_by_id(self, id):
         query = 'SELECT * FROM cities WHERE name = %s'
-        return self.connection.execute_read_query(query, (name,))
+        return self.connection.execute_read_query(query, (id,))
     
     def insert(self, city):
         query = 'INSERT INTO cities (name, status) VALUES (%s, %s)'
@@ -53,55 +67,77 @@ class DaoCity:
         query = 'DELETE FROM cities WHERE id = %s'
         return self.connection.execute_query(query, (id,))
     
-
-class Daojob:
+class DaoJob:
     def __init__(self, connection):
         self.connection = connection
     
     def get_all(self):
-        query = 'SELECT * FROM jobs'
+        query = """
+        SELECT 'ID', 
+            'Nombre', 
+            'Estado'
+        UNION ALL
+            SELECT id, 
+            name AS Nombre, 
+            status AS Estado
+        FROM jobs;
+        """
         return self.connection.execute_read_query(query, ())
-    
+        
     def get_by_id(self, id):
-        query = 'SELECT * FROM jobs WHERE id = %s'
+        query = 'SELECT * FROM jobs WHERE name = %s'
         return self.connection.execute_read_query(query, (id,))
     
-    def insert(self, job):
+    def insert(self, jobs):
         query = 'INSERT INTO jobs (name, status) VALUES (%s, %s)'
-        return self.connection.execute_query(query, (job.name, job.status))
+        return self.connection.execute_query(query, (jobs.name, jobs.status))
     
-    def update(self, job):
+    def update(self, jobs):
         query = 'UPDATE jobs SET name = %s, status = %s WHERE id = %s'
-        return self.connection.execute_query(query, (job.name, job.status, job.id))
+        return self.connection.execute_query(query, (jobs.name, jobs.status, jobs.id))
     
     def delete(self, id):
         query = 'DELETE FROM jobs WHERE id = %s'
         return self.connection.execute_query(query, (id,))
     
-
-
 class DaoEmployee:
     def __init__(self, connection):
         self.connection = connection
     
     def get_all(self):
-        query = 'SELECT * FROM employees'
+        query = """
+        SELECT 'ID', 
+           'Nombre', 
+           'Ciudad', 
+           'Trabajo', 
+           'Salario', 
+           'Estado'
+        UNION ALL
+        SELECT employees.id, 
+           employees.name AS Nombre, 
+           cities.name AS ciudad, 
+           jobs.name AS Trabajo, 
+           employees.salary,  
+           employees.status
+        FROM employees
+        JOIN cities ON employees.ciudad_id = cities.id
+        JOIN jobs ON employees.job_id = jobs.id;
+        """
         return self.connection.execute_read_query(query, ())
     
     def get_by_id(self, id):
-        query = 'SELECT * FROM employees WHERE id = %s'
+        query = 'SELECT * FROM employees WHERE nombre = %s'
         return self.connection.execute_read_query(query, (id,))
     
-    def insert(self, employee):
-        query = 'INSERT INTO employees (name, ciudad_id, job_id, salary, status) VALUES (%s, %s, %s, %s, %s)'
-        return self.connection.execute_query(query, (employee.name, employee.ciudad_id, employee.job_id, employee.salary, employee.status))
+    def insert(self, employees):
+        query = 'INSERT INTO employees (nombre, ciudad_id, job_id, salary, status) VALUES (%s, %s, %s, %s, %s)'
+        return self.connection.execute_query(query, (employees.nombre, employees.ciudad_id, employees.job_id, employees.salary, employees.status))
     
-    def update(self, employee):
-        query = 'UPDATE employees SET name = %s, status = %s WHERE id = %s'
-        return self.connection.execute_query(query, (employee.name, employee.status, employee.id))
+    def update(self, employees):
+        query = 'UPDATE employees SET nombre = %s, ciudad_id = %s, job_id = %s, salary = %s, status = %s WHERE id = %s'
+        return self.connection.execute_query(query, (employees.nombre, employees.ciudad_id, employees.job_id, employees.salary, employees.status, employees.id))
     
     def delete(self, id):
         query = 'DELETE FROM employees WHERE id = %s'
         return self.connection.execute_query(query, (id,))
     
-
